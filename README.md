@@ -1,35 +1,67 @@
-# 🛡️ DevSecOps Blueprints
+# DevSecOps Blueprints
 
-> 🚧 **STATUS: UNDER CONSTRUCTION & HEAVY FORGING** 🚧  
-> *We are currently forging the ultimate shields. Drop a ⭐ to get notified when we launch!*
+An enterprise-grade, visually stunning CLI for advanced vulnerability scanning, auto-remediation, and continuous infrastructure security (CI/CD).
 
-![DevSecOps](https://img.shields.io/badge/DevSecOps-Blueprints-blue?style=for-the-badge&logo=shield)
-![Docker](https://img.shields.io/badge/Docker-Secure-2496ED?style=for-the-badge&logo=docker)
-![CI/CD](https://img.shields.io/badge/CI%2FCD-Hardened-2088FF?style=for-the-badge&logo=githubactions)
-![Kubernetes](https://img.shields.io/badge/Kubernetes-Protected-326CE5?style=for-the-badge&logo=kubernetes)
+## Overview
+`devsecops-blueprints` is a powerful Monorepo toolkit wrapping industry-standard tools like Trivy and Gitleaks. Instead of just failing pipelines when vulnerabilities run rampant, it provides an "Actionable Solution" – letting you seamlessly pull in hardened, secure-by-default templates directly from our armory.
 
-## 🛑 The Problem
-Stop copying vulnerable configurations from the internet! Developers and Cloud Engineers waste hours trying to secure their pipelines, containers, and clusters, often leaving critical loopholes behind.
+## Prerequisites & Installation
 
-## 💡 The Solution (This Repository)
-**DevSecOps Blueprints** is your ultimate library for production-ready, secure-by-default templates. 
-No more guessing. Just **Copy, Paste, and Secure**.
+To use this CLI properly, you must have the required security scanning engines installed.
 
-Whether you are a Developer, DevOps, or Cloud Engineer, these blueprints will help you shift-left and bake security into your architecture from day zero.
+### Installing Dependencies (Trivy & Gitleaks)
+*   **macOS**: `brew install trivy gitleaks`
+*   **Windows**: `winget install Aquasecurity.Trivy` & `winget install gitleaks`
+*   **Linux (Debian/Ubuntu)**: Run our `setup` command.
 
-## 🗺️ What's Coming? (The Roadmap)
+*(Or simply run `devsecops-blueprints setup` to view interactive instructions or automatically install them!)*
 
-We are preparing a massive drop of high-value templates:
+### Installing the CLI via Native Python
 
-- [ ] **🐳 Secure Dockerfiles:** Minimal, rootless, and vulnerability-free templates for Node.js, Python, and Go.
-- [ ] **🐙 Hardened CI/CD Pipelines:** GitHub Actions / GitLab CI with built-in SAST, Secret Scanning, and Image Linting.
-- [ ] **☸️ Kubernetes Security:** OPA Gatekeeper policies, Network Policies, and Pod Security Standards (PSS).
-- [ ] **☁️ Secure IaC (Terraform):** Cloud infrastructure templates configured with the principle of least privilege.
+```bash
+# If using poetry
+poetry install
 
----
+# Alternatively, directly via pip (PEP-621)
+pip install .
+```
 
-### ⏳ Stay Tuned...
-The first blueprint drops very soon. 
-**Star ⭐ this repository and watch this space!**
+### Docker Distribution Container (Zero-Install)
+If you don't want to install Python, Trivy, or Typer locally, use our hardened Multi-Stage Docker image:
+```bash
+# Build the image locally
+docker build -t devsecops-blueprints:latest .
 
-*Created with ❤️ by [@f9-o](https://github.com/f9-o) | Let's secure the cloud together. 🚀*
+# Run the Audit against your current directory instantly 
+docker run -v $(pwd):/app devsecops-blueprints:latest audit
+```
+
+## Continuous Security (CI/CD Automation)
+A true DevOps armory must run continuously. You can automatically inject a perfect GitHub Actions pipeline into your repository.
+```bash
+# Automatically generates .github/workflows/blueprints-security.yml
+devsecops-blueprints inject-ci
+```
+This enables the tool to scan for secrets and IaC Misconfig on every Pull Request seamlessly!
+
+## Usage Manual
+
+```bash
+# Display setup and auto-installation helpers for tooling
+devsecops-blueprints setup
+
+# Inject the perfect GitHub Actions CI/CD to secure your repository
+devsecops-blueprints inject-ci
+
+# Run a vulnerability scan against a docker image
+devsecops-blueprints scan my-vulnerable-image:latest
+
+# Fetch a secured baseline blueprint
+devsecops-blueprints fetch docker-node
+
+# Scan Infrastructure as Code (Terraform, Dockerfile, K8s) for misconfigurations
+devsecops-blueprints iac .
+
+# Audit the current directory for hardcoded secrets
+devsecops-blueprints audit
+```

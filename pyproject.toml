@@ -1,0 +1,20 @@
+[tool.poetry]
+name = "devsecops-blueprints"
+version = "0.1.0"
+description = "Advanced vulnerability scanner (Trivy wrapper) and automated remediation tool."
+authors = ["Engineer <engineer@example.com>"]
+readme = "README.md"
+packages = [{include = "devsecops_blueprints"}]
+
+[tool.poetry.dependencies]
+python = "^3.10"
+typer = {extras = ["all"], version = "^0.9.0"}
+rich = "^13.7.0"
+httpx = "^0.26.0"
+
+[tool.poetry.scripts]
+devsecops-blueprints = "devsecops_blueprints.main:app"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"

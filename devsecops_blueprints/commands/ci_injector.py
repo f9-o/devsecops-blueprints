@@ -39,7 +39,8 @@ jobs:
       - name: Build & Install DevSecOps Tooling
         run: |
           curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sudo sh -s -- -b /usr/local/bin
-          curl -sSfL https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | sudo sh -s -- -b /usr/local/bin
+          wget -q https://github.com/gitleaks/gitleaks/releases/download/v8.18.1/gitleaks_8.18.1_linux_x64.tar.gz
+          tar -xf gitleaks_8.18.1_linux_x64.tar.gz && sudo mv gitleaks /usr/local/bin/
           pip install typer rich httpx
           pip install .
           

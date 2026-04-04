@@ -1,0 +1,34 @@
+name: DevSecOps Blueprints Security Scan
+
+on:
+  push:
+    branches: [ "main", "master" ]
+  pull_request:
+    branches: [ "main", "master" ]
+
+jobs:
+  security-scan:
+    name: Advanced Vulnerability & Audit Scan
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v4
+        
+      - name: Setup Python environment
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.10'
+          
+      - name: Build & Install DevSecOps Tooling
+        run: |
+          curl -sfL https://raw.githubusercontent.com/aquasecurity/trivy/main/contrib/install.sh | sh -s -- -b /usr/local/bin
+          curl -sSfL https://raw.githubusercontent.com/gitleaks/gitleaks/master/install.sh | sh -s -- -b /usr/local/bin
+          pip install typer rich httpx
+          pip install .
+          
+      - name: Audit Repository for Hardcoded Secrets
+        run: devsecops-blueprints audit
+        
+      - name: Scan Infrastructure as Code (IaC)
+        run: devsecops-blueprints iac .

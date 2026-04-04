@@ -50,18 +50,27 @@ This enables the tool to scan for secrets and IaC Misconfig on every Pull Reques
 # Display setup and auto-installation helpers for tooling
 devsecops-blueprints setup
 
-# Inject the perfect GitHub Actions CI/CD to secure your repository
+# Inject a Zero-Trust GitHub Actions CI/CD workflow to secure your repository pushes
 devsecops-blueprints inject-ci
 
-# Run a vulnerability scan against a docker image
-devsecops-blueprints scan my-vulnerable-image:latest
+# Explore the interactive F9 Armory Catalog for available secure templates
+devsecops-blueprints catalog
 
-# Fetch a secured baseline blueprint
-devsecops-blueprints fetch docker-node
+# Fetch a secured baseline blueprint (Run without arguments for an interactive prompt)
+devsecops-blueprints fetch [template_name]
+
+# Run a vulnerability scan against a container image
+devsecops-blueprints scan my-vulnerable-image:latest
 
 # Scan Infrastructure as Code (Terraform, Dockerfile, K8s) for misconfigurations
 devsecops-blueprints iac .
 
 # Audit the current directory for hardcoded secrets
 devsecops-blueprints audit
+
+# Generate a visually stunning HTML Executive Security Report based on silent analysis
+devsecops-blueprints report .
+
+# Auto-Remediate: Let the AI-Ready patcher rewrite your insecure configurations securely
+devsecops-blueprints fix .
 ```

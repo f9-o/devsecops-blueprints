@@ -1,7 +1,10 @@
 import typer
+from typing import Optional
+from rich.prompt import Prompt
 from rich.progress import Progress, SpinnerColumn, BarColumn, TextColumn, TimeElapsedColumn, DownloadColumn
 from devsecops_blueprints.ui.console import console, print_error_panel, print_success_panel
 from devsecops_blueprints.core.github_client import stream_blueprint
+from devsecops_blueprints.commands.catalog import display_catalog
 
 app = typer.Typer()
 
@@ -10,10 +13,14 @@ def _default():
     pass
 
 @app.command("fetch")
-def fetch_command(template_name: str):
+def fetch_command(template_name: Optional[str] = typer.Argument(None)):
     """
     Fetches a secure-by-default template blueprint.
     """
+    if template_name is None:
+        display_catalog()
+        template_name = Prompt.ask("\n[bold magenta][*] Enter the name of the blueprint to equip[/bold magenta]")
+        
     dest_path = "Dockerfile"
     
     try:

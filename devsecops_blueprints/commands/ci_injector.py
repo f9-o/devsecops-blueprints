@@ -1,20 +1,18 @@
 import typer
 import os
+import time
+from rich.progress import Progress, SpinnerColumn, TextColumn
 from devsecops_blueprints.ui.console import console, print_success_panel, print_error_panel
 
 app = typer.Typer()
 
-@app.callback(invoke_without_command=True)
-def _default():
-    pass
-
 @app.command("inject-ci")
 def inject_ci():
     """
-    Injects a carefully crafted GitHub Actions workflow for continuous DevSecOps scanning.
+    Automatically creates the .github/workflows directory and injects a Zero-Trust CI/CD pipeline.
     """
     workflow_dir = ".github/workflows"
-    workflow_path = os.path.join(workflow_dir, "blueprints-security.yml")
+    workflow_path = os.path.join(workflow_dir, "f9-security-gate.yml")
     
     workflow_content = """name: DevSecOps Blueprints Security Scan
 
@@ -53,16 +51,25 @@ jobs:
 """
 
     try:
-        if not os.path.exists(workflow_dir):
-            os.makedirs(workflow_dir)
-            console.print(f"[[dim]info[/dim]] Created directory: {workflow_dir}")
+        with Progress(
+            SpinnerColumn(),
+            TextColumn("[bold cyan]{task.description}[/bold cyan]"),
+            console=console,
+            transient=True
+        ) as progress:
+            task = progress.add_task("[*] Injecting Zero-Trust CI/CD pipeline...", total=None)
+            time.sleep(1.5) # Sleek visual effect
             
-        with open(workflow_path, "w") as f:
-            f.write(workflow_content)
-            
+            if not os.path.exists(workflow_dir):
+                os.makedirs(workflow_dir)
+                console.print(f"[i] Created directory: {workflow_dir}")
+                
+            with open(workflow_path, "w") as f:
+                f.write(workflow_content)
+                
         print_success_panel(
-            "CI/CD Injected Successfully", 
-            f"GitHub Action workflow saved to [bold white]{workflow_path}[/bold white].\nYour repository is now secured on every push!"
+            "Pipeline Secured", 
+            f"GitHub Action workflow saved to [bold white]{workflow_path}[/bold white].\nPull Requests will now be strictly gated."
         )
     except Exception as e:
         print_error_panel("Injection Failed", str(e))
